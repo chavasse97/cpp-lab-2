@@ -8,6 +8,8 @@
 #include <string>
 #include <numeric>
 #include <set>
+#include <map>
+#include <cmath>
 
 int Task1 () {
   int n;
@@ -173,6 +175,19 @@ int Task9(const std::vector<int>& V0, const std::vector<std::vector<int>>& vecto
   return count;
 }
 
+std::multimap<int, int> Task10(const std::vector<int>& V) { // sth that will look like 1 - 21, 1 - 31, 2 - 12 ...
+  std::multimap<int, int> M;
+  
+  for (std::vector<int>::const_iterator it = V.begin(); it != V.end(); ++it) {
+    // find last digit
+    int last_digit = std::abs(*it) % 10;
+    
+    // key + value
+    M.insert(std::make_pair(last_digit, *it));
+  }
+  return M;
+}
+
 std::list<int> inputList() {
     int size;
     std::cout << "Введите размер списка: ";
@@ -221,6 +236,14 @@ void print(const T& V) {
     std::cout << *it << " ";
   }
   std::cout << "\n";
+}
+
+void multiprint(const std::multimap<int, int>& M) {
+  std::cout << "Result(key | value): " << std::endl;
+  
+  for (std::multimap<int, int>::const_iterator it = M.begin(); it != M.end(); ++it) {
+    std::cout << it->first << " | " << it->second << std::endl;
+  }
 }
 
 int main() {
@@ -334,6 +357,12 @@ int main() {
     std::cin >> n;
     int res = Task9(V, vectors, n);
     std::cout << "Количество подходящих векторов: " << res << std::endl;
+    return 0;
+  }
+  case 10: {
+    std::vector<int> V = Task2();
+    std::multimap<int, int> M = Task10(V);
+    multiprint(M);
     return 0;
   }
   
